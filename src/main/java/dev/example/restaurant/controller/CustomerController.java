@@ -28,6 +28,7 @@ public class CustomerController {
         return customerRepository.findById(id).orElse(null);
     }
 
+    // Update a customer by ID and return the updated customer
     @PutMapping("/{id}")
     public Customer updateCustomer(@PathVariable String id, @RequestBody Customer customerDetails) {
         Customer customer = customerRepository.findById(id).orElse(null);
