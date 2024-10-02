@@ -1,11 +1,9 @@
 package dev.example.restaurant.controller;
 
-
 import dev.example.restaurant.model.Customer;
 import dev.example.restaurant.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

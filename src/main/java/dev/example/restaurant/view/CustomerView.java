@@ -1,6 +1,7 @@
 package dev.example.restaurant.view;
 
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
@@ -11,7 +12,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import dev.example.restaurant.model.Customer;
 import dev.example.restaurant.repository.CustomerRepository;
-
 import java.util.UUID;
 
 @Route("")
@@ -29,10 +29,27 @@ public class CustomerView extends VerticalLayout {
     public CustomerView(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
 
+        // Set up the main view properties
         setSizeFull();
         setPadding(false);
         setSpacing(false);
 
+        // Create and add the main layout
+        add(createMainLayout());
+
+        // Set up data binding
+        binder.bindInstanceFields(this);
+
+        // Set up event listeners
+        setupEventListeners();
+
+        // Initialize the view
+        clearForm();
+        refreshGrid();
+    }
+
+    // Method to create the main layout
+    private Component createMainLayout() {
         // Create the 3-column layout
         HorizontalLayout mainLayout = new HorizontalLayout();
         mainLayout.setSizeFull();
@@ -76,11 +93,11 @@ public class CustomerView extends VerticalLayout {
         // Add all columns to the main layout
         mainLayout.add(leftColumn, centerColumn, rightColumn);
 
-        // Add the main layout to the view
-        add(mainLayout);
+        return mainLayout;
+    }
 
-        binder.bindInstanceFields(this);
-
+    // Method to set up event listeners
+    private void setupEventListeners() {
         save.addClickListener(e -> saveCustomer());
         delete.addClickListener(e -> deleteCustomer());
 
@@ -91,11 +108,9 @@ public class CustomerView extends VerticalLayout {
                 clearForm();
             }
         });
-
-        clearForm();
-        refreshGrid();
     }
 
+    // Methods to save, delete, and clear the form
     private void saveCustomer() {
         Customer customer = binder.getBean();
         if (customer == null) {
@@ -110,6 +125,7 @@ public class CustomerView extends VerticalLayout {
         refreshGrid();
     }
 
+    // Method to delete a customer
     private void deleteCustomer() {
         Customer customer = binder.getBean();
         if (customer != null) {
@@ -119,10 +135,12 @@ public class CustomerView extends VerticalLayout {
         }
     }
 
+    // Method to clear the form
     private void clearForm() {
         binder.setBean(new Customer());
     }
 
+    // Method to refresh the grid
     private void refreshGrid() {
         grid.setItems(customerRepository.findAll());
     }
