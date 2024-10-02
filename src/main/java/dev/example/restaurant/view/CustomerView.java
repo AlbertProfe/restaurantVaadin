@@ -1,7 +1,9 @@
 package dev.example.restaurant.view;
 
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -9,6 +11,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import dev.example.restaurant.model.Customer;
 import dev.example.restaurant.repository.CustomerRepository;
+
 import java.util.UUID;
 
 @Route("")
@@ -26,11 +29,55 @@ public class CustomerView extends VerticalLayout {
     public CustomerView(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
 
+        setSizeFull();
+        setPadding(false);
+        setSpacing(false);
+
+        // Create the 3-column layout
+        HorizontalLayout mainLayout = new HorizontalLayout();
+        mainLayout.setSizeFull();
+        mainLayout.setPadding(false);
+        mainLayout.setSpacing(false);
+
+        // Left column (empty for spacing)
+        VerticalLayout leftColumn = new VerticalLayout();
+        leftColumn.setWidth("20%");
+
+        // Center column (contains all the components)
+        VerticalLayout centerColumn = new VerticalLayout();
+        centerColumn.setWidth("60%");
+        centerColumn.setAlignItems(Alignment.CENTER);
+
+        // Right column (empty for spacing)
+        VerticalLayout rightColumn = new VerticalLayout();
+        rightColumn.setWidth("20%");
+
+        // Set up the grid
         grid.setColumns("id", "name", "email", "phoneNumber");
+        grid.setSizeFull();
 
-        HorizontalLayout fields = new HorizontalLayout(name, email, phoneNumber, save, delete);
+        // Create a form layout
+        HorizontalLayout formLayout = new HorizontalLayout(name, email, phoneNumber);
+        formLayout.setWidth("100%");
+        formLayout.setJustifyContentMode(JustifyContentMode.CENTER);
 
-        add(grid, fields);
+        // Create a button layout
+        HorizontalLayout buttonLayout = new HorizontalLayout(save, delete);
+        buttonLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+
+        // Add components to the center column
+        centerColumn.add(
+                new H2("Customer Management"),
+                grid,
+                formLayout,
+                buttonLayout
+        );
+
+        // Add all columns to the main layout
+        mainLayout.add(leftColumn, centerColumn, rightColumn);
+
+        // Add the main layout to the view
+        add(mainLayout);
 
         binder.bindInstanceFields(this);
 
