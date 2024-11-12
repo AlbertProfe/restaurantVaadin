@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import dev.example.restaurant.model.Customer;
 import dev.example.restaurant.repository.CustomerRepository;
@@ -21,7 +22,8 @@ import dev.example.restaurant.repository.CustomerRepository;
 import java.util.List;
 import java.util.UUID;
 
-@Route("")
+@Route(value = "customer", layout = MainLayout.class)
+@PageTitle("Customer | RestaurantVaadin")
 public class CustomerView extends VerticalLayout {
 
     // connects to the database by a JPA repository ALL crud operations
