@@ -50,13 +50,14 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-
+        RouterLink homeLink = new RouterLink("Home", HomeView.class);
         RouterLink bookingLink = new RouterLink("Booking", BookingView.class);
         RouterLink customerLink = new RouterLink("Customer", CustomerView.class);
         RouterLink orderLink = new RouterLink("Order", OrderView.class);
 
         customerLink.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(
+                homeLink,
                 customerLink,
                 bookingLink,
                 orderLink
@@ -68,16 +69,23 @@ public class MainLayout extends AppLayout {
         var viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE,
                 LumoUtility.Flex.GROW);
+        // Check if a user is logged in
+        if (authenticationContext.isAuthenticated()) {
+            var logout = new Button("Logout " + authenticationContext.getPrincipalName().orElse(""),
+                    event -> {
+                        authenticationContext.logout();
+                        getUI().ifPresent(ui -> ui.getPage().setLocation("/home"));
+                    });
+
+            var header = new Header(viewTitle, logout);
+            header.addClassNames(LumoUtility.AlignItems.CENTER, LumoUtility.Display.FLEX,
+                    LumoUtility.Padding.End.MEDIUM, LumoUtility.Width.FULL);
+
+            addToNavbar(false, header);
+        }
 
 
-        var logout = new Button("Logout " + authenticationContext.getPrincipalName().orElse(""),
-                event -> authenticationContext.logout());
 
-        var header = new Header(viewTitle, logout);
 
-        header.addClassNames(LumoUtility.AlignItems.CENTER, LumoUtility.Display.FLEX,
-                LumoUtility.Padding.End.MEDIUM, LumoUtility.Width.FULL);
-
-        addToNavbar(false, header);
     }
 }
