@@ -40,10 +40,13 @@ public class MainLayout extends AppLayout {
 
         RouterLink bookingLink = new RouterLink("Booking", BookingView.class);
         RouterLink customerLink = new RouterLink("Customer", CustomerView.class);
+        RouterLink orderLink = new RouterLink("Order", OrderView.class);
+
         customerLink.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(
                 customerLink,
-                bookingLink
+                bookingLink,
+                orderLink
 
         ));
     }
