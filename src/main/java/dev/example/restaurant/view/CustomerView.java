@@ -18,10 +18,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import dev.example.restaurant.model.Customer;
 import dev.example.restaurant.repository.CustomerRepository;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 import java.util.UUID;
 
+@PermitAll
 @Route(value = "customer", layout = MainLayout.class)
 @PageTitle("Customer | RestaurantVaadin")
 public class CustomerView extends VerticalLayout {
