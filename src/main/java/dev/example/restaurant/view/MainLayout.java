@@ -13,11 +13,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.router.HighlightConditions;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
 
-@PermitAll
+@AnonymousAllowed
 @Route("")
 @PageTitle("RestaurantVaadin")
 public class MainLayout extends AppLayout {
