@@ -37,12 +37,19 @@ class SecurityConfig extends VaadinWebSecurity {
                 .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles(Roles.USER)
                 .build();
+        var isaac = User.builder()
+                .username("isaac")
+                // password = password with this hash, don't tell anybody :-)
+                .password("{bcrypt}$2y$10$jaoj0Q2GRSxqwXaVB4yzSugTJJM8zuQf0NmLZU.iPhoC2CJBA.hsi")
+                .roles(Roles.ADMIN, Roles.USER)
+                .build();
+
         var admin = User.builder()
                 .username("admin")
                 // password = password with this hash, don't tell anybody :-)
                 .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles(Roles.ADMIN, Roles.USER)
                 .build();
-        return new InMemoryUserDetailsManager(alice, bob, admin);
+        return new InMemoryUserDetailsManager(alice, bob, admin, isaac);
     }
 }

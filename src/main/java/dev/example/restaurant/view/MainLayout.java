@@ -6,6 +6,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -54,15 +56,39 @@ public class MainLayout extends AppLayout {
         RouterLink bookingLink = new RouterLink("Booking", BookingView.class);
         RouterLink customerLink = new RouterLink("Customer", CustomerView.class);
         RouterLink orderLink = new RouterLink("Order", OrderView.class);
+        RouterLink loginLink = new RouterLink("Login", LoginView.class);
 
         customerLink.setHighlightCondition(HighlightConditions.sameLocation());
-        addToDrawer(new VerticalLayout(
+
+        // Add icons to each link
+        homeLink.addComponentAsFirst(new Icon(VaadinIcon.HOME));
+        bookingLink.addComponentAsFirst(new Icon(VaadinIcon.CALENDAR));
+        customerLink.addComponentAsFirst(new Icon(VaadinIcon.USER));
+        orderLink.addComponentAsFirst(new Icon(VaadinIcon.CART));
+        loginLink.addComponentAsFirst(new Icon(VaadinIcon.SIGN_IN));
+
+        // Create a VerticalLayout for the main menu items
+        VerticalLayout mainMenu = new VerticalLayout(
                 homeLink,
                 customerLink,
                 bookingLink,
                 orderLink
+        );
 
-        ));
+        // Create a VerticalLayout for the entire drawer content
+        VerticalLayout drawerContent = new VerticalLayout(mainMenu, loginLink);
+        drawerContent.setSizeFull();
+        drawerContent.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        drawerContent.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        // Add some spacing and styling
+        drawerContent.setSpacing(true);
+        drawerContent.setPadding(true);
+        // Set the login link to expand, pushing it to the bottom
+        loginLink.getElement().getStyle().set("margin-top", "auto");
+
+
+        addToDrawer(drawerContent);
     }
 
     private void addNavbarContent() {
